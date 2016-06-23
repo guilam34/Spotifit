@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  div(class='wrapper')
+    div(class='container')
+      div(class='page_title') Choose One to Generate a Playlist
+      form(action='/playlists' method='GET')
+        input(class="button_default button_default_normal" type="submit" value="Use an existing playlist")
+      form(action='/search' method='GET')
+        input(class="button_default button_default_normal" type="submit" value="Custom selection")

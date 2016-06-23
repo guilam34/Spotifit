@@ -1,0 +1,231 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: content-box !important;
+	-webkit-box-sizing: content-box !important;
+}
+
+html{
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	background-color: rgb(0, 153, 51) !important;
+	color: white !important;
+  	height: 100%;
+  	width: 100%;
+  	font-family: 'Montserrat', sans-serif !important;
+}
+
+button:focus, input:focus{
+	outline: none !important;
+}
+
+button:hover, input:hover{
+	cursor: pointer;
+}
+
+input{
+	color: black;
+}
+
+a {
+  	color: white !important;  	
+}
+
+a:hover{
+	text-decoration: none !important;
+}
+
+.wrapper{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+}
+
+.container{
+	position: relative;
+	top: 50%;
+	text-align: center;
+	transform:translateY(-50%);
+	-webkit-transform:translateY(-50%);
+}
+
+.button_default{
+	background-color: rgb(13, 26, 0);
+	border: 0px;
+	color: white;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.button_default_normal{
+	height: 2.5em;
+	width: 14em;
+	margin: 1.75em;
+	border-radius: 0.6em;
+	font-size: 1.5em;    
+}
+
+.button_default_search{
+	height: 2.5em;
+	width: 19%;
+	margin-top: 1.75em;
+	margin-left: 0.25em;
+	border-radius: 0.6em;
+	color: white;
+	font-size: 1.5em;    
+}
+
+.button_back{
+	position: absolute;
+	z-index: 1;
+}
+
+.page_title{
+	font-family: 'Montserrat', sans-serif;
+	font-size: 3em;
+	letter-spacing: 0.075em;
+	padding: 1em;
+}
+
+.search_default{
+	height: 2.5em;
+	width: 80%;
+	margin: 0em;
+	margin-top: 1.75em;
+	padding: 0em 1em;
+	border: 0;
+	border-radius: 0.6em;
+	box-sizing: border-box !important;
+	-webkit-box-sizing: border-box !important;
+	color: black !important;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 1.5em;    
+}
+
+.dropdown-menu{
+	width: 20em !important;	
+	font-size: 1.5em !important;
+}
+
+.dropdown-menu li a{
+	color: black !important;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.below_search{
+	margin: 1em 0em;
+}
+
+.glyphicon-refresh{
+	color: white;
+	font-size: 2em;
+}
+
+.error_message{
+	color: white;
+	font-size: 1.5em;
+}
+
+.error_message > span{
+	padding: 0.5em;
+}
+
+.selected_elmt{
+	margin: 0.2em 0em;
+	padding: 1em;
+	background-color: rgb(26, 51, 0);
+	border-radius: 0.5em;
+	color: white;
+	font-size: 1.5em;
+	letter-spacing: 0.1em;
+	text-align: left;
+}
+
+.selected_remove:hover{
+	color: rgb(0, 153, 51);
+	cursor: pointer;
+}
+
+.playlist_title{
+	margin: 0 auto;
+	width: 50%;
+	padding: 0.5em;
+	font-size: 1.75em;
+	max-width: 425px;
+}
+
+.playlist_title:hover{
+	background-color: rgb(26, 51, 0);
+	border-radius: 10px;
+}
+
+.playlist_title > a{
+	color: white;
+	font-family: 'Montserrat', sans-serif;
+	letter-spacing: 0.1em;
+	text-decoration: none;
+}
+
+.track_entry{
+	padding: 0.25em;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 1.5em;
+}
+
+.track_entry:hover{
+	background-color: rgb(26, 51, 0);
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+#home_title{
+	padding: 0.25em;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 7em;
+	letter-spacing: 0.1em;
+}
+
+#home_login{
+	height: 2.75em;
+	width: 20em;
+	border-radius: 15px;
+	font-size: 1.75em;
+	letter-spacing: 0.125em;
+}
+
+#playlist_name{
+	padding: 0.75em;
+}
+
+#search_container{
+	height: 75%;
+	width: 100%;
+	max-width: 40em;	
+}
+
+#selected_elmt_container{
+	margin-top: 2em;
+}
+
+#track_container_wrapper{
+	margin: 0 auto;
+	height: 100%;
+	width: 100%;
+	max-height: 500px;
+	max-width: 600px;
+	overflow: hidden;
+}
+
+#track_container{
+	height: 100%;
+	width: 100%;
+	padding-right: 17px;
+	max-height: 500px;
+	max-width: 600px;
+	overflow-y: scroll;	
+}

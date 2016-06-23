@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  script(type='text/ng-template' id="results.html")
+    a(ng-click="$parent.$parent.$parent.addToSelected($event)")
+      span(ng-bind-html="match.label | uibTypeaheadHighlight:query")
+  div
+    button(class="button_default button_default_normal button_back" onclick='window.location.href="/generationOptions"') Back to Options 
+  div(class='wrapper')
+    div(class='container' id="search_container" ng-app='spotifit' ng-controller='searchController')     
+      input(class='search_default' type='text' ng-model='searchString' placeholder='Search for a track or artist' uib-typeahead='entry for entry in updateSuggestions($viewValue)' typeahead-loading='gettingSuggestions' typeahead-no-results="emptyResults" typeahead-template-url="results.html")
+      button(class="button_default button_default_search" type="submit" ng-click="submitSelections()") Go
+      div(class='below_search' ng-show='gettingSuggestions')
+        i(class='glyphicon glyphicon-refresh')
+      div(class="below_search error_message" ng-show='emptyResults')
+        i(class='glyphicon glyphicon-remove') 
+        span No Results Found
+      div(id='selected_elmt_container')
+        div(class="selected_elmt" ng-repeat='elmt in selectedElmts' ng-click='removeFromSelected($event)')
+          div
+            i(class='glyphicon glyphicon-remove selected_remove')
+            &nbsp;
+            span {{elmt.name}}
