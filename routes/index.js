@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 router.get('/auth_client', function(req, res, next) {
 	var uri = 'https://accounts.spotify.com/authorize/?client_id=' + encodeURIComponent(client_id) +
 						'&response_type=' + encodeURIComponent('code') +
-						'&redirect_uri=' + encodeURIComponent('http://localhost:3000/getToken') +
+						'&redirect_uri=' + encodeURIComponent('https://obscure-inlet-83427.herokuapp.com/getToken') +
 						'&scope=' + encodeURIComponent('playlist-modify-public');  			
 	res.redirect(uri);					
 });
@@ -31,7 +31,7 @@ router.get('/getToken', function(req, res, next) {
 			form: {
 				'grant_type': 'authorization_code',
 				'code': encodeURIComponent(code),
-				'redirect_uri': encodeURIComponent('http://localhost:3000/getToken')						
+				'redirect_uri': encodeURIComponent('https://obscure-inlet-83427.herokuapp.com/getToken')						
 			},
 			headers: {
 				'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
