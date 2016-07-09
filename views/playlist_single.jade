@@ -1,20 +1,19 @@
 extends layout
 
-block content
-  div
-    button(class="button_default button_default_normal button_back" onclick='window.location.href="/playlists"') Back to Playlists 
+block content  
   div(class='wrapper')
     div(class='container')      
       div(class='page_title' id="playlist_name") #{name} 
-      div(id='track_container_wrapper')
-        div(id='track_container')
+      div(class='entry_container_wrapper')
+        div(class='entry_container')
           each track in tracks
-            div(class='track_entry' data-id=track.id onclick="toggleSelection(this)")
-              span #{track.name} - 
-                each artist, index in track.artists
-                  span(data-artist-id=artist.id) #{artist.name}
-                  if index != track.artists.length-1
-                    span ,&nbsp;
+            div(class='entry_wrapper entry_wrapper_nonselectable')
+              div(class='entry' data-id=track.id)
+                span #{track.name} - 
+                  each artist, index in track.artists
+                    span(data-artist-id=artist.id) #{artist.name}
+                    if index != track.artists.length-1
+                      span ,&nbsp;
               br
           br
-      button(class="button_default button_default_normal" onclick="getRecommendations()") Generate Playlist
+      button(class="button_default button_default_normal" onclick="window.location.href='/menu'") Done

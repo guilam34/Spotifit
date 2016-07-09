@@ -1,0 +1,54 @@
+extends layout
+
+block content
+  script(type='text/ng-template' id="results.html")
+    a(ng-click="$parent.$parent.$parent.addSuggestionToSelected($event)")
+      span(ng-bind-html="match.label | uibTypeaheadHighlight:query")
+  div(class='wrapper' ng-app='spotifit' ng-controller='searchController' data-ng-init="getUserTracks()")
+    div(class='container fixed_container')
+      div(id="tabs_wrapper")
+        div(class='page_title' id="playlist_name") Select Your Playlist's Influences
+        uib-tabset(active="active")
+          uib-tab(index="0" heading="Tracks" ng-click='getUserTracks();sharpenContentContainer()')
+            div(class='loading' ng-show='loading')
+              i(class='glyphicon glyphicon-refresh')
+            div(class="entry_container_wrapper")
+              div(class="entry_container")
+                div(class="entry_wrapper" ng-repeat="track in userTracks")
+                  div(class="entry" ng-click="addLibraryEntryToSelected($event)" data-id="{{track.id}}" data-type="{{track.type}}"){{track.artists}}&nbsp;-&nbsp;{{track.name}}
+          uib-tab(index="1" heading="Artists" ng-click='getUserArtists();roundOutContentContainer()')
+            div(class='loading' ng-show='loading')
+              i(class='glyphicon glyphicon-refresh')
+            div(class="entry_container_wrapper")
+              div(class="entry_container" ng-repeat="artist in userArtists")
+                div(class="entry_wrapper")
+                  div(class="entry" ng-click="addLibraryEntryToSelected($event)" data-id="{{artist.id}}" data-type="{{artist.type}}"){{artist.name}}
+          uib-tab(index="2" heading="Playlists" ng-click="getUserPlaylists();roundOutContentContainer()")
+            div(class='loading' ng-show='loading')
+              i(class='glyphicon glyphicon-refresh')
+            div(class="entry_container_wrapper")
+              div(class="entry_container")
+                div(class="entry_wrapper" ng-repeat="playlist in userPlaylists" ng-show="!playlistSingle")
+                  div(class="entry" ng-click="getPlaylist($event)" data-id="{{playlist.id}}"){{playlist.name}}
+                div(class="entry_wrapper" ng-click="getUserPlaylists()" ng-show="playlistSingle")
+                  div(class="entry")
+                    i(class="fa fa-arrow-left" aria-hidden="true")
+                    span &nbsp;&nbsp;Back
+                div(class="entry_wrapper" ng-repeat="track in playlistTracks" ng-show="playlistSingle")
+                  div(class="entry" ng-click="addLibraryEntryToSelected($event)" data-id="{{track.id}}" data-type="track"){{track.artists[0].name}}&nbsp;-&nbsp;{{track.name}}
+          uib-tab(index="3" heading="Custom Search" ng-click="roundOutContentContainer()")
+            div(id="search_container")
+              input(class='search_default' type='text' ng-model='searchString' placeholder='Search for a track or artist' uib-typeahead='entry for entry in updateSuggestions($viewValue)' typeahead-loading='gettingSuggestions' typeahead-no-results="emptyResults" typeahead-template-url="results.html")
+              div(class='loading' ng-show='gettingSuggestions')
+                i(class='glyphicon glyphicon-refresh')
+              div(class="loading error_message" ng-show='emptyResults')
+                i(class='glyphicon glyphicon-remove') 
+                span No Results Found
+      div(id='selected_elmt_container')
+        div(class="selected_elmt" ng-repeat='elmt in selectedElmts' ng-click='removeFromSelected($event)')
+          div
+            i(class='glyphicon glyphicon-remove selected_remove')
+            &nbsp;
+            span {{elmt.name}}    
+      div  
+        button(class="button_default button_default_normal" ng-click="submitSelections()") Generate Playlist

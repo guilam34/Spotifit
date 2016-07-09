@@ -4,8 +4,10 @@ var router = express.Router();
 var request = require('request');
 var querystring = require('querystring');
 
-var client_id = '71bd8a0397f04922af588c60bd44391b';
-var client_secret = 'f0e449cc7e014fe9844a94a9cc0370b4';
+var client_id = 'ed3b512e06d94fdc94ee6b3581393e14';
+var client_secret = 'b0505301d1dd4efa92c0ae4b1b037aae';
+
+var host_url = 'http://localhost:3000/';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -15,11 +17,12 @@ router.get('/', function(req, res, next) {
 router.get('/auth_client', function(req, res, next) {
 	var uri = 'https://accounts.spotify.com/authorize/?client_id=' + encodeURIComponent(client_id) +
 						'&response_type=' + encodeURIComponent('code') +
-						'&redirect_uri=' + encodeURIComponent('https://obscure-inlet-83427.herokuapp.com/getToken') +
-						'&scope=' + encodeURIComponent('playlist-modify-public');  			
+						'&redirect_uri=' + encodeURIComponent(host_url + 'getToken') +
+						'&scope=' + encodeURIComponent('playlist-modify-public user-library-read user-follow-read');  			
 	res.redirect(uri);					
 });
 
+//TODO create separate test and deployment credentials for spotify api and test library read scope
 //Get access token after user has allowed app permissions
 router.get('/getToken', function(req, res, next) {
 	var code = req.query.code;
@@ -31,7 +34,7 @@ router.get('/getToken', function(req, res, next) {
 			form: {
 				'grant_type': 'authorization_code',
 				'code': encodeURIComponent(code),
-				'redirect_uri': encodeURIComponent('https://obscure-inlet-83427.herokuapp.com/getToken')						
+				'redirect_uri': encodeURIComponent(host_url + 'getToken')						
 			},
 			headers: {
 				'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
@@ -69,20 +72,11 @@ router.get('/userProfile', refreshTokenMiddleware, function(req, res){
 		if(!error && response.statusCode == 200){
 			res.cookie('user_id', body.id);
 			// res.render('user', { user: body.id });
-			res.redirect('/generationOptions');
+			res.redirect('/menu');
 		}else{
 			res.redirect('/');
 		}
 	});
-});
-
-router.get('/generationOptions', function(req, res){
-	res.render('generation_options');
-});
-
-//Render page allowing custom searches
-router.get('/search', function(req, res){
-	res.render('search');
 });
 
 //Gets search suggestions from Spotify API and returns JSON
@@ -111,7 +105,8 @@ router.get('/suggestions', function(req, res){
 
 			for(var i = 0; i < (raw_tracks.length > 5 ? 5 : raw_tracks.length); i++){
 				tracks.push({ 'id': raw_tracks[i]['id'],
-							   'name': raw_tracks[i]['name']
+							   'name': raw_tracks[i]['name'],
+							   'artist': raw_tracks[i]['artists'][0]['name']
 							});
 			}
 
@@ -126,6 +121,10 @@ router.get('/suggestions', function(req, res){
 			res.end();
 		}
 	});
+});
+
+router.get('/menu', refreshTokenMiddleware, function(req, res){
+	res.render('menu');
 });
 
 //Return list of all playlists
@@ -144,15 +143,16 @@ router.get('/playlists', refreshTokenMiddleware, function(req, res){
 			var playlists = body.items;
 			var playlists_arr = new Array();
 
-
 			for(var i = 0; i < (body.items).length; i++){
 				var cur_playlist = (body.items)[i];
 				playlists_arr.push({ id: cur_playlist["id"], name: cur_playlist["name"] });
 			}
 
-			res.render('playlists', { playlists: playlists_arr });
+			res.statusCode = response.statusCode;
+			res.send(playlists_arr);
 		}else{
-			res.redirect('/');
+			res.statusCode = response.statusCode;
+			res.end();
 		}
 	});
 });
@@ -162,7 +162,8 @@ router.get('/playlist', refreshTokenMiddleware, function(req, res){
 	var user_id = req.cookies.user_id;
 	var access_token = req.cookies.access_token;
 	var playlist_id = req.query.id;
-	var playlist_name = req.query.name; 
+	var playlist_name = req.query.name;
+	var render = req.query.render; 
 
 	var get_options = {
 		url: 'https://api.spotify.com/v1/users/' + user_id + '/playlists/'+ playlist_id + '/tracks',
@@ -194,15 +195,94 @@ router.get('/playlist', refreshTokenMiddleware, function(req, res){
 							});
 			}
 
-			res.render('playlist_single', { id: playlist_id, 
-											name: playlist_name,
-											tracks: tracks
-										  });
+			if(!render){
+				res.statusCode = response.statusCode;
+				res.send(tracks);
+			}	
+			else{
+				res.render('playlist_single', { id: playlist_id, 
+												name: playlist_name,
+												tracks: tracks
+										  	  });
+			}
 		}else{
-			res.redirect('/');
+			if(!render){
+				res.statusCode = response.statusCode;
+				res.end();
+			}
+			else{
+				res.redirect('/');
+			}
 		}
 	});
 
+});
+
+router.get('/getUserTracks', refreshTokenMiddleware, function(req, res){
+	var access_token = req.cookies.access_token;
+	var user_id = req.cookies.user_id;
+
+	var get_options = {
+		url: 'https://api.spotify.com/v1/me/tracks',
+		headers: {
+			'Authorization': 'Bearer ' + access_token
+		},
+		json: true
+	}
+
+	request.get(get_options, function(error, response, body){
+		if(!error && response.statusCode == 200){	
+			var raw_tracks = body.items;
+			var tracks = new Array();			
+
+			for(var i = 0; i < raw_tracks.length; i++){
+				var track = raw_tracks[i].track;
+				var entry = { 'id': track.id,
+							  'name': track.name,
+							  'artists': track.artists[0].name
+							};
+				tracks.push(entry);				
+			}
+			res.statusCode = response.statusCode;
+			res.send(tracks);
+		}else{
+			res.statusCode = response.statusCode;
+			res.end();
+		}
+	});
+});
+
+router.get('/getUserArtists', refreshTokenMiddleware, function(req, res){
+	var access_token = req.cookies.access_token;
+	var user_id = req.cookies.user_id;
+
+	var get_options = {
+		url: 'https://api.spotify.com/v1/me/following?type=artist',
+		headers: {
+			'Authorization': 'Bearer ' + access_token
+		},
+		json: true
+	}
+
+	request.get(get_options, function(error, response, body){
+		if(!error && response.statusCode == 200){	
+			var raw_artists = body.artists.items;
+			var artists = new Array();			
+
+			for(var i = 0; i < raw_artists.length; i++){
+				var artist = raw_artists[i];
+				var entry = { 'id': artist.id,
+							  'name': artist.name
+							};
+				artists.push(entry);
+			}
+			res.statusCode = response.statusCode;
+			res.send(artists);
+		}else{
+			res.statusCode = response.statusCode;
+			res.end();
+		}
+	});
 });
 
 //Get audio features for each of the track_ids included in request
@@ -318,7 +398,7 @@ router.get('/generatePlaylist', refreshTokenMiddleware, function(req, res){
 		var track_ids = raw_track_ids.split(',');
 
 		if(track_ids.length <= (5 - artist_ids.length)){
-			uri += 'seed_tracks=' + req.query.ids;
+			uri += 'seed_tracks=' + req.query.ids + '&';
 		}else{
 			var sliced_ids = '';
 			for(var i = 0; i < (5 - artist_ids.length); i ++){
@@ -405,16 +485,16 @@ router.get('/generatePlaylist', refreshTokenMiddleware, function(req, res){
 
 					request.post(post_options, function(error, response, body){
 						if(!error && (response.statusCode == 200 || response.statusCode == 201) ){
-							res.redirect('/playlist?id=' + playlist_id +'&name=' + playlist_name);
+							res.redirect('/playlist?id=' + playlist_id +'&name=' + playlist_name + '&render=true');
 						}else{
 							res.redirect('/');
 						}
 					});
-				}else{					
+				}else{				
 					res.redirect('/');
 				}
 			});
-		}else{			
+		}else{	
 			res.redirect('/');
 		}
 	});
@@ -450,10 +530,5 @@ function refreshTokenMiddleware(req, res, next){
 		next();
 	}	
 }
-
-
-router.get('/refresh_token', function(req, res){
-	
-});
 
 module.exports = router;

@@ -6,6 +6,7 @@ function toggleSelection(track){
 	if(selected_tracks.indexOf(id) > -1){
 		selected_tracks.splice(selected_tracks.indexOf(id), 1);	
 		track.style.backgroundColor = "transparent";	
+		track.style.backgroundColor = "	"
 		track.style.borderRadius = "none";
 	}else{
 		selected_tracks.push(id);
