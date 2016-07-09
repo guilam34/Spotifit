@@ -6,7 +6,7 @@ module.exports = function(router, request, config){
 
 		var uri = 'https://api.spotify.com/v1/recommendations?';
 		uri += 'limit=40&';
-		uri += 'target_tempo=' + req.query.tempo + '&';
+		uri += 'min_tempo=' + req.query.tempo + '&';
 
 		if(req.query.ids != ''){
 			var tuneables = [parseInt(req.query.danceablity), parseInt(req.query.energy)];

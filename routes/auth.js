@@ -3,7 +3,7 @@ module.exports = function(router, request, config){
 		var uri = 'https://accounts.spotify.com/authorize/?client_id=' + encodeURIComponent(config.client_id) +
 							'&response_type=' + encodeURIComponent('code') +
 							'&redirect_uri=' + encodeURIComponent(config.host_url + 'get-token') +
-							'&scope=' + encodeURIComponent('playlist-modify-public user-library-read user-follow-read');  			
+							'&scope=' + encodeURIComponent('user-top-read playlist-modify-public user-library-read user-follow-read');  			
 		res.redirect(uri);					
 	});
 

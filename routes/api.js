@@ -48,7 +48,7 @@ module.exports = function(router, request, config){
 		var track_ids = raw_track_ids.split(',');
 		var tracks_data = new Array();
 		var tracks_processed = 0;
-		var tempo = 132;
+		var tempo = 120;
 
 		//Get audio features for each track
 		if(raw_track_ids != ''){

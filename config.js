@@ -1,4 +1,4 @@
-//Deploy config
+// //Deploy config
 module.exports.client_id = '71bd8a0397f04922af588c60bd44391b';
 module.exports.client_secret = 'f0e449cc7e014fe9844a94a9cc0370b4';
 module.exports.host_url = 'https://obscure-inlet-83427.herokuapp.com/';

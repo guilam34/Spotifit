@@ -77,6 +77,11 @@ a:hover{
 	font-size: 1.5em;    
 }
 
+.button_logout{
+	position: absolute;
+	right: 0;
+}
+
 .page_title{
 	font-family: 'Montserrat', sans-serif;
 	font-size: 3em;

@@ -3,8 +3,10 @@ extends layout
 block content
   script(type='text/ng-template' id="results.html")
     a(ng-click="$parent.$parent.$parent.addSuggestionToSelected($event)")
-      span(ng-bind-html="match.label | uibTypeaheadHighlight:query")
+      span(ng-bind-html="match.label | uibTypeaheadHighlight:query")  
   div(class='wrapper' ng-app='spotifit' ng-controller='searchController' data-ng-init="getUserTracks()")
+    button(class='button_default button_default_normal button_logout') 
+      a(href='/logout') Log Out
     div(class='container fixed_container')
       div(id="tabs_wrapper")
         div(class='page_title' id="playlist_name") Select Your Playlist's Influences

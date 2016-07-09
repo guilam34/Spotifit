@@ -10,5 +10,11 @@ module.exports = function(router, request, config){
 		res.render('menu');
 	});
 
+	router.get('/logout', function(req, res){
+		res.clearCookie('access_token');
+		res.clearCookie('user_id');
+		res.redirect('/');
+	});
+
 	return router;
 }

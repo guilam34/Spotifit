@@ -2,6 +2,8 @@ extends layout
 
 block content  
   div(class='wrapper')
+    button(class='button_default button_default_normal button_logout') 
+      a(href='/logout') Log Out
     div(class='container')      
       div(class='page_title' id="playlist_name") #{name} 
       div(class='entry_container_wrapper')
