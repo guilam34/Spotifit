@@ -17,7 +17,7 @@ function toggleSelection(track){
 }
 
 function getRecommendations(){
-	var redirect_url = '/getTracksData?ids=';
+	var redirect_url = '/api/1/tracks-data?ids=';
 
 	for(var i = 0 ; i < selected_tracks.length; i++){
 		redirect_url += selected_tracks[i];

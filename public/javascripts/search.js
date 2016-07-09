@@ -15,7 +15,7 @@ angular.module("spotifit", ['ui.bootstrap']).controller("searchController", func
   $scope.getUserTracks = function(){
     $scope.userTracks = new Array();
     $scope.loading = true;    
-    return $http.get('/getUserTracks', {      
+    return $http.get('/api/1/user/tracks', {      
     }).then(function(response){
       var results = (response.data);
       var display_data = new Array();
@@ -37,7 +37,7 @@ angular.module("spotifit", ['ui.bootstrap']).controller("searchController", func
   $scope.getUserArtists = function(){
     $scope.userArtists = new Array();
     $scope.loading = true;
-    return $http.get('/getUserArtists', {      
+    return $http.get('/api/1/user/artists', {      
     }).then(function(response){     
       var results = (response.data);
       var display_data = new Array();
@@ -59,7 +59,7 @@ angular.module("spotifit", ['ui.bootstrap']).controller("searchController", func
     $scope.playlistSingle = false;
     $scope.userPlaylists = new Array();
     $scope.loading = true;
-    return $http.get('/playlists', {      
+    return $http.get('/api/1/user/playlists', {      
     }).then(function(response){    
       $scope.userPlaylists = response.data;
       $scope.loading = false;    
@@ -72,7 +72,7 @@ angular.module("spotifit", ['ui.bootstrap']).controller("searchController", func
     $scope.loading = true;
     var playlistId = e.currentTarget.getAttribute("data-id");
     var playlistName = e.currentTarget.innerText;
-    return $http.get('/playlist', {
+    return $http.get('/api/1/playlist', {
       params: { id: playlistId,
                 name: playlistName
               }    
@@ -84,7 +84,7 @@ angular.module("spotifit", ['ui.bootstrap']).controller("searchController", func
   }
 
   $scope.addLibraryEntryToSelected = function(e){
-    var target = e.currentTarget;
+    var target = e.currentTarget.firstChild;
     $scope.selectedElmts.push({ 'id': target.getAttribute("data-id"),
                                 'name': target.innerText,
                                 'type': target.getAttribute("data-type")
@@ -127,7 +127,7 @@ angular.module("spotifit", ['ui.bootstrap']).controller("searchController", func
   };
 
   $scope.updateSuggestions = function(query){
-    return $http.get('/suggestions', {
+    return $http.get('/api/1/suggestions', {
       params: {
         query: query
       }
@@ -178,7 +178,7 @@ angular.module("spotifit", ['ui.bootstrap']).controller("searchController", func
     artist_ids = artist_ids.substring(0, artist_ids.length - 1);
     track_ids = track_ids.substring(0, track_ids.length - 1);
 
-    var redirect_uri = '/getTracksData?ids=' + track_ids + '&a_ids=' +artist_ids + '&render=false';
+    var redirect_uri = '/api/1/tracks-data?ids=' + track_ids + '&a_ids=' +artist_ids + '&render=false';
 
     $window.location.href = redirect_uri;
   }  

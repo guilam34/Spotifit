@@ -14,28 +14,28 @@ block content
               i(class='glyphicon glyphicon-refresh')
             div(class="entry_container_wrapper")
               div(class="entry_container")
-                div(class="entry_wrapper" ng-repeat="track in userTracks")
-                  div(class="entry" ng-click="addLibraryEntryToSelected($event)" data-id="{{track.id}}" data-type="{{track.type}}"){{track.artists}}&nbsp;-&nbsp;{{track.name}}
+                div(class="entry_wrapper" ng-click="addLibraryEntryToSelected($event)" ng-repeat="track in userTracks")
+                  div(class="entry" data-id="{{track.id}}" data-type="{{track.type}}"){{track.artists}}&nbsp;-&nbsp;{{track.name}}
           uib-tab(index="1" heading="Artists" ng-click='getUserArtists();roundOutContentContainer()')
             div(class='loading' ng-show='loading')
               i(class='glyphicon glyphicon-refresh')
             div(class="entry_container_wrapper")
               div(class="entry_container" ng-repeat="artist in userArtists")
-                div(class="entry_wrapper")
-                  div(class="entry" ng-click="addLibraryEntryToSelected($event)" data-id="{{artist.id}}" data-type="{{artist.type}}"){{artist.name}}
+                div(class="entry_wrapper" ng-click="addLibraryEntryToSelected($event)" )
+                  div(class="entry" data-id="{{artist.id}}" data-type="{{artist.type}}"){{artist.name}}
           uib-tab(index="2" heading="Playlists" ng-click="getUserPlaylists();roundOutContentContainer()")
             div(class='loading' ng-show='loading')
               i(class='glyphicon glyphicon-refresh')
             div(class="entry_container_wrapper")
               div(class="entry_container")
-                div(class="entry_wrapper" ng-repeat="playlist in userPlaylists" ng-show="!playlistSingle")
-                  div(class="entry" ng-click="getPlaylist($event)" data-id="{{playlist.id}}"){{playlist.name}}
+                div(class="entry_wrapper" ng-click="getPlaylist($event)" ng-repeat="playlist in userPlaylists" ng-show="!playlistSingle")
+                  div(class="entry" data-id="{{playlist.id}}"){{playlist.name}}
                 div(class="entry_wrapper" ng-click="getUserPlaylists()" ng-show="playlistSingle")
                   div(class="entry")
                     i(class="fa fa-arrow-left" aria-hidden="true")
                     span &nbsp;&nbsp;Back
-                div(class="entry_wrapper" ng-repeat="track in playlistTracks" ng-show="playlistSingle")
-                  div(class="entry" ng-click="addLibraryEntryToSelected($event)" data-id="{{track.id}}" data-type="track"){{track.artists[0].name}}&nbsp;-&nbsp;{{track.name}}
+                div(class="entry_wrapper" ng-click="addLibraryEntryToSelected($event)" ng-repeat="track in playlistTracks" ng-show="playlistSingle")
+                  div(class="entry" data-id="{{track.id}}" data-type="track"){{track.artists[0].name}}&nbsp;-&nbsp;{{track.name}}
           uib-tab(index="3" heading="Custom Search" ng-click="roundOutContentContainer()")
             div(id="search_container")
               input(class='search_default' type='text' ng-model='searchString' placeholder='Search for a track or artist' uib-typeahead='entry for entry in updateSuggestions($viewValue)' typeahead-loading='gettingSuggestions' typeahead-no-results="emptyResults" typeahead-template-url="results.html")

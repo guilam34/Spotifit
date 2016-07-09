@@ -77,21 +77,6 @@ a:hover{
 	font-size: 1.5em;    
 }
 
-.button_default_search{
-	height: 2.5em;
-	width: 19%;
-	margin-top: 1.75em;
-	margin-left: 0.25em;
-	border-radius: 0.6em;
-	color: white;
-	font-size: 1.5em;    
-}
-
-.button_back{
-	position: absolute;
-	z-index: 1;
-}
-
 .page_title{
 	font-family: 'Montserrat', sans-serif;
 	font-size: 3em;
@@ -163,26 +148,6 @@ a:hover{
 	cursor: pointer;
 }
 
-.playlist_title{
-	margin: 0 auto;
-	width: 50%;
-	padding: 0.5em;
-	font-size: 1.75em;
-	max-width: 425px;
-}
-
-.playlist_title:hover{
-	background-color: rgb(26, 51, 0);
-	border-radius: 10px;
-}
-
-.playlist_title > a{
-	color: white;
-	font-family: 'Montserrat', sans-serif;
-	letter-spacing: 0.1em;
-	text-decoration: none;
-}
-
 .entry_container_wrapper{
 	margin: 0 auto;
 	height: 100%;
@@ -229,16 +194,6 @@ a:hover{
 	-webkit-transform: translateY(-50%);
 }
 
-.#tabs_wrapper{
-	display: inline-block;
-	width: 100%;
-	float: left;
-}
-
-#tabs_wrapper > div{
-	height: 100%;
-	width: 100%;
-}
 
 .tab-content{
 	background-color: rgba(13, 26, 0, 0.7);
@@ -272,7 +227,6 @@ a:hover{
 	border-top-right-radius: 0.75em;
 }
 
-
 #home_title{
 	padding: 0.25em;
 	font-family: 'Montserrat', sans-serif;
@@ -286,6 +240,17 @@ a:hover{
 	border-radius: 15px;
 	font-size: 1.75em;
 	letter-spacing: 0.125em;
+}
+
+.#tabs_wrapper{
+	display: inline-block;
+	width: 100%;
+	float: left;
+}
+
+#tabs_wrapper > div{
+	height: 100%;
+	width: 100%;
 }
 
 #playlist_name{
