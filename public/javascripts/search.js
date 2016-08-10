@@ -70,7 +70,7 @@ angular.module("spotifit", ['ui.bootstrap']).controller("searchController", func
     $scope.userPlaylists = new Array();
     $scope.playlistTracks = new Array();
     $scope.loading = true;
-    var playlistId = e.currentTarget.getAttribute("data-id");
+    var playlistId = e.currentTarget.firstChild.getAttribute("data-id");
     var playlistName = e.currentTarget.innerText;
     return $http.get('/api/1/playlist', {
       params: { id: playlistId,
